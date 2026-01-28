@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistics Index Tracker - Angkutan Material</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/jpeg" href="image/mobil.jpg">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="header-banner">
+                <div class="image-frame">
+                    <img src="image/mobil.jpg" alt="Truk Angkut Batu" class="main-car-img">
+                </div>
+            </div>
+            <div class="header-text">
+                <h1>Indeks Surat Jalan</h1>
+                <p><i class="fas fa-check-circle"></i> Pencatatan & Material Real-Time</p>
+            </div>
+        </header>
+
+        <section class="card form-section">
+            <form id="logForm">
+                <div class="grid-input">
+                    <div class="field">
+                        <label><i class="fas fa-calendar-alt"></i> Tanggal & Jam</label>
+                        <input type="datetime-local" id="waktuCustom" required>
+                    </div>
+
+                    <div class="field">
+                        <label><i class="fas fa-id-card"></i> Plat Mobil</label>
+                        <input type="text" id="plat" placeholder="B 1234 ABC" required>
+                    </div>
+
+                    <div class="field">
+                        <label><i class="fas fa-truck-pickup"></i> Kode DT (Truk Angkut)</label>
+                        <input type="text" id="dt" placeholder="DT-101" required>
+                    </div>
+
+                    <div class="field">
+                        <label><i class="fas fa-user-circle"></i> Nama Bos</label>
+                        <input type="text" id="cashName" placeholder="Ketik Nama Bos Anda" required>
+                    </div>
+
+                    <div class="field">
+                        <label><i class="fas fa-cubes"></i> Material (Pilih/Ketik)</label>
+                        <input type="text" id="material" list="materialOptions" placeholder="Pilih atau ketik sendiri..." required>
+                        <datalist id="materialOptions">
+                            <option value="Pasir">
+                            <option value="Batu Belah">
+                            <option value="Split">
+                            <option value="Tanah">
+                            <option value="Batubara">
+                            <option value="Agregat">
+                            <option value="Abu Batu">
+                            <option value="Sirdam">
+                            <option value="Base Course">
+                        </datalist>
+                    </div>
+
+                    <div class="field">
+                        <label><i class="fas fa-map-marked-alt"></i> Tuan Toko / Tujuan</label>
+                        <input type="text" id="toko" placeholder="Lokasi Proyek / Tujuan" required>
+                    </div>
+
+                    <div class="field full-width">
+                        <label><i class="fas fa-ruler-combined"></i> Banyaknya (Dimensi & M3)</label>
+                        <textarea 
+                            id="banyaknya" 
+                            placeholder="Contoh:&#10;P: 500, L: 200, T: 150&#10;Total: 15 M3" 
+                            rows="3" 
+                            required></textarea>
+                    </div>
+
+                    <div class="field full-width">
+                        <label><i class="fas fa-info-circle"></i> Keterangan Status</label>
+                        <select id="keterangan" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; background: #fff; font-family: inherit;">
+                            <option value="" disabled selected>-- Pilih Status Sesuai Perintah --</option>
+                            <option value="Terima surat indek">Terima Surat indek</option>
+                            <option value="Terima bon muat">Terima bon muat</option>
+                            <option value="Proses muat material">Proses muat material</option>
+                            <option value="Terima surat jalan/selesai">Terima surat jalan/selesai</option>
+                            <option value="Pending/dikerjakan hari berikutnya">Pending/dikerjakan hari berikutnya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <input type="hidden" id="editId">
+                
+                <div class="action-buttons">
+                    <button type="submit" id="submitBtn" class="btn-primary">
+                        <i class="fas fa-plus-circle"></i> Tambah Catatan Ritasi
+                    </button>
+                    <button type="button" id="cancelBtn" class="btn-outline" style="display:none; margin-top:10px; width:100%">
+                        <i class="fas fa-times"></i> Batal Edit
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card table-section">
+            <div class="table-header">
+                <h3><i class="fas fa-history"></i> Riwayat Ritasi</h3>
+                <div class="print-controls">
+                    <input type="date" id="filterTanggal" class="input-date-small">
+                    <button type="button" onclick="printPDF()" class="btn-print">
+                        <i class="fas fa-file-pdf"></i> Cetak Laporan
+                    </button>
+                </div>
+                <button type="button" id="clearAll" class="btn-outline-danger">
+                    <i class="fas fa-trash-alt"></i> Hapus Semua
+                </button>
+            </div>
+            
+            <div class="table-wrapper">
+                <table id="mainTable">
+                    <thead>
+                        <tr>
+                            <th>Waktu</th>
+                            <th>Unit/DT</th>
+                            <th>Nama Bos</th>
+                            <th>Tujuan</th>
+                            <th>Material</th>
+                            <th>Volume</th>
+                            <th>Keterangan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
